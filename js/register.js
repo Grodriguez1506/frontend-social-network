@@ -10,7 +10,7 @@ const registerError = document.querySelector(".registerError");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();

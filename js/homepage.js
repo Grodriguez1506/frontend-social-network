@@ -18,7 +18,7 @@ const token = localStorage.getItem("access_token");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
 
 if (token) {
   // OBTENER LAS PUBLICACIONES DE LOS USUARIOS QUE SIGUES

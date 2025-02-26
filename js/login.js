@@ -14,6 +14,7 @@ const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  loginError.style.display = "none";
   loading.style.display = "block";
 
   const email = inputEmail.value;

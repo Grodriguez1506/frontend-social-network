@@ -5,6 +5,7 @@ const inputEmail = document.querySelector(".inputEmail");
 const inputPassword = document.querySelector(".inputPassword");
 const loginBtn = document.getElementById("loginBtn");
 const loginError = document.querySelector(".loginError");
+const loading = document.querySelector(".loading");
 
 // URL DEL SERVIDOR BACKEND
 
@@ -12,6 +13,8 @@ const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  loading.style.display = "block";
 
   const email = inputEmail.value;
   const password = inputPassword.value;
@@ -28,6 +31,7 @@ loginForm.addEventListener("submit", async (e) => {
     if (!data.token) {
       loginError.style.display = "block";
       loginError.innerHTML = data.message;
+      loading.style.display = "none";
       return;
     }
 

@@ -7,6 +7,7 @@ const inputEmail = document.querySelector(".inputEmail");
 const inputPassword = document.querySelector(".inputPassword");
 const registerBtn = document.getElementById("registerBtn");
 const registerError = document.querySelector(".registerError");
+const loading = document.querySelector(".loading");
 
 // URL DEL SERVIDOR BACKEND
 
@@ -14,6 +15,9 @@ const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  registerError.style.display = "none";
+  loading.style.display = "block";
 
   const firstName = inputFirstname.value;
   const lastName = inputLastname.value;
@@ -32,6 +36,7 @@ registerForm.addEventListener("submit", async (e) => {
     if (data.status == "error") {
       registerError.style.display = "block";
       registerError.innerHTML = data.message;
+      loading.style.display = "none";
       return;
     }
 

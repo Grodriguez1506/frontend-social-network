@@ -22,10 +22,15 @@ const following = document.querySelector(".following");
 const followersSection = document.getElementById("followersSection");
 const followers = document.querySelector(".followers");
 const publicationsCount = document.querySelector(".publicationsCount");
+const followBtn = document.querySelector(".followBtn");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+// const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+
+// URL DEL SERVIDOR EN DESARROLLO
+
+const API_URL = "http://localhost:3000/api";
 
 if (token) {
   // OBTENER LOS USUARIOS QUE SIGUE EL USUARIO SELECCIONADO
@@ -270,49 +275,131 @@ if (token) {
     }
   };
 
+  const follow = async (id, widget) => {
+    try {
+      const response = await fetch(`${API_URL}/follow/save`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ followed: id }),
+      });
+
+      await response.json();
+
+      widget.innerHTML = "Unfollow";
+      widget.classList.replace("btn-primary", "btn-danger");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const unfollow = async (id, widget) => {
+    try {
+      const response = await fetch(`${API_URL}/follow/unfollow`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ unfollow: id }),
+      });
+
+      await response.json();
+
+      widget.innerHTML = "Follow";
+      widget.classList.replace("btn-danger", "btn-primary");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // OBTENER LOS DATOS PERSONALES DEL USUARIO LOGEADO Y EL USUARIO SELECCIONADO
 
   const getPersonalData = async () => {
-    // POBLAR EL TEXTO DE BIENVENIDA EN EL HEADER DEL NOMBRE DEL UUSUARIO LOGEADO
+    try {
+      // POBLAR EL TEXTO DE BIENVENIDA EN EL HEADER DEL NOMBRE DEL UUSUARIO LOGEADO
 
-    welcomeText.innerHTML = `Welcome ${userStored.user.firstName}`;
+      welcomeText.innerHTML = `Welcome ${userStored.user.firstName}`;
 
-    // SOLICITAR LA FOTO DE PERFIL AL BACKEND DEL USUARIO LOGEADO
+      // SOLICITAR LA FOTO DE PERFIL AL BACKEND DEL USUARIO LOGEADO
 
-    profileImage.setAttribute(
-      "src",
-      `${API_URL}/user/avatar/${userStored.user.image}`
-    );
+      profileImage.setAttribute(
+        "src",
+        `${API_URL}/user/avatar/${userStored.user.image}`
+      );
 
-    // ESTABLECER ATRIBUTOS DE TITLE DEL LINK PARA EL PERFIL
+      // ESTABLECER ATRIBUTOS DE TITLE DEL LINK PARA EL PERFIL
 
-    myProfile.setAttribute("title", `Perfil de ${userStored.user.firstName}`);
+      myProfile.setAttribute("title", `Perfil de ${userStored.user.firstName}`);
 
-    // ESTABLECER LOS DATOS PERSONALES DEL USUARIO SELECCIONADO
+      // ESTABLECER LOS DATOS PERSONALES DEL USUARIO SELECCIONADO
 
-    mainPicture.setAttribute(
-      "src",
-      `${API_URL}/user/avatar/${userStored.userSelected.image}`
-    );
+      mainPicture.setAttribute(
+        "src",
+        `${API_URL}/user/avatar/${userStored.userSelected.image}`
+      );
 
-    firstname.innerHTML = userStored.userSelected.firstName;
-    lastname.innerHTML = userStored.userSelected.lastName;
+      firstname.innerHTML = userStored.userSelected.firstName;
+      lastname.innerHTML = userStored.userSelected.lastName;
 
-    // TRAER INFORMACION DE USUARIOS QUE SIGUE
+      // TRAER INFORMACION DE USUARIOS QUE SIGUE
 
-    following.innerHTML = `Following ${userStored.following}`;
-    following.addEventListener("click", () => {
-      followingSection.innerHTML = "";
-      getFollowing();
-    });
+      following.innerHTML = `Following ${userStored.following}`;
+      following.addEventListener("click", () => {
+        followingSection.innerHTML = "";
+        getFollowing();
+      });
 
-    // TRAER INFORMACION DE SEGUIDORES QUE TIENE
+      // TRAER INFORMACION DE SEGUIDORES QUE TIENE
 
-    followers.innerHTML = `Followers ${userStored.followers}`;
-    followers.addEventListener("click", () => {
-      followersSection.innerHTML = "";
-      getFollowers();
-    });
+      followers.innerHTML = `Followers ${userStored.followers}`;
+      followers.addEventListener("click", () => {
+        followersSection.innerHTML = "";
+        getFollowers();
+      });
+
+      publicationsCount.innerHTML = `Publications ${userStored.publicationsCount}`;
+
+      let followed = new Array();
+
+      if (userStored.myFollowings) {
+        userStored.myFollowings.forEach((user) => {
+          followed.push(user.followed);
+        });
+      }
+
+      // MOSTRAR EL BOTON DE FOLLOW SI NO SIGUES AL USUARIO Y UNFOLLOW SI LO SIGUES
+
+      if (userStored.userSelected._id == userStored.user.id) {
+        followBtn.style.display = "none";
+      } else if (!followed.includes(userStored.userSelected._id)) {
+        followBtn.innerHTML = "Follow";
+        followBtn.classList.add("btn", "btn-primary", "fs-5");
+        followBtn.addEventListener("click", async () => {
+          if (followBtn.innerHTML == "Follow") {
+            await follow(userStored.userSelected._id, followBtn);
+          } else if (followBtn.innerHTML == "Unfollow") {
+            await unfollow(userStored.userSelected._id, followBtn);
+          }
+        });
+      } else {
+        followBtn.innerHTML = "Unfollow";
+        followBtn.classList.add("btn", "btn-danger", "fs-5");
+        followBtn.addEventListener("click", async () => {
+          if (followBtn.innerHTML == "Follow") {
+            await follow(userStored.userSelected._id, followBtn);
+          } else if (followBtn.innerHTML == "Unfollow") {
+            await unfollow(userStored.userSelected._id, followBtn);
+          }
+        });
+      }
+    } catch (error) {
+      // SI EL TOKEN EXPIRÓ REDIRECCIONA AL LOGIN
+
+      document.location.href = "/login.html";
+    }
   };
 
   // OBTENER LAS PUBLICACIONES DEL PERFIL DEL USUARIO SELECCIONADO
@@ -334,8 +421,6 @@ if (token) {
       const data = await response.json();
 
       const publications = data.publicationsList;
-
-      publicationsCount.innerHTML = `Publications ${userStored.publicationsCount}`;
 
       if (publications.length > 0) {
         feed.style.display = "flex";
@@ -379,8 +464,7 @@ if (token) {
         feed.appendChild(title);
       }
     } catch (error) {
-      console.log(error);
-      // document.location.href = "/login.html";
+      document.location.href = "/login.html";
     }
   };
 
@@ -470,28 +554,25 @@ if (token) {
             cardEmail.innerHTML = user.email;
             const btnAdd = document.createElement("a");
             if (!followed.includes(user._id)) {
+              btnAdd.innerHTML = "Follow";
               btnAdd.classList.add("btn", "btn-primary");
               btnAdd.addEventListener("click", async () => {
-                try {
-                  await fetch(`${API_URL}/follow/save`, {
-                    method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({ followed: user._id }),
-                  });
-
-                  btnAdd.classList.add("btn", "btn-secondary");
-                  btnAdd.innerHTML = "Followed";
-                } catch (error) {
-                  console.log(error);
+                if (btnAdd.innerHTML == "Follow") {
+                  await follow(user._id, btnAdd);
+                } else if (btnAdd.innerHTML == "Unfollow") {
+                  await unfollow(user._id, btnAdd);
                 }
               });
-              btnAdd.innerHTML = "Add";
             } else {
-              btnAdd.classList.add("btn", "btn-secondary");
-              btnAdd.innerHTML = "Followed";
+              btnAdd.innerHTML = "Unfollow";
+              btnAdd.classList.add("btn", "btn-danger");
+              btnAdd.addEventListener("click", async () => {
+                if (btnAdd.innerHTML == "Follow") {
+                  await follow(user._id, btnAdd);
+                } else if (btnAdd.innerHTML == "Unfollow") {
+                  await unfollow(user._id, btnAdd);
+                }
+              });
             }
 
             cardBody.appendChild(linkProfile);
@@ -512,7 +593,7 @@ if (token) {
           searchSection.appendChild(title);
         }
       } catch (error) {
-        console.log(error);
+        document.location.href = "/login.html";
       }
     }
   });

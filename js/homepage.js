@@ -18,9 +18,53 @@ const token = localStorage.getItem("access_token");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+// const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+
+// URL DEL SERVIDOR EN DESARROLLO
+
+const API_URL = "http://localhost:3000/api";
 
 if (token) {
+  // FUNCION PARA SEGUIR A UN USUARIO
+
+  const follow = async (id, widget) => {
+    try {
+      await fetch(`${API_URL}/follow/save`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ followed: id }),
+      });
+
+      widget.classList.replace("btn-primary", "btn-danger");
+      widget.innerHTML = "Unfollow";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // FUNCION PARA DEJAR DE SEGUIR A UN USUARIO
+
+  const unfollow = async (id, widget) => {
+    try {
+      await fetch(`${API_URL}/follow/unfollow`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ unfollow: id }),
+      });
+
+      widget.classList.replace("btn-danger", "btn-primary");
+      widget.innerHTML = "Follow";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // OBTENER LAS PUBLICACIONES DE LOS USUARIOS QUE SIGUES
 
   const getFeed = async () => {
@@ -241,28 +285,25 @@ if (token) {
             cardEmail.innerHTML = user.email;
             const btnAdd = document.createElement("a");
             if (!followed.includes(user._id)) {
+              btnAdd.innerHTML = "Follow";
               btnAdd.classList.add("btn", "btn-primary");
               btnAdd.addEventListener("click", async () => {
-                try {
-                  await fetch(`${API_URL}/follow/save`, {
-                    method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({ followed: user._id }),
-                  });
-
-                  btnAdd.classList.add("btn", "btn-secondary");
-                  btnAdd.innerHTML = "Followed";
-                } catch (error) {
-                  console.log(error);
+                if (btnAdd.innerHTML == "Follow") {
+                  follow(user._id, btnAdd);
+                } else if (btnAdd.innerHTML == "Unfollow") {
+                  unfollow(user._id, btnAdd);
                 }
               });
-              btnAdd.innerHTML = "Add";
             } else {
-              btnAdd.classList.add("btn", "btn-secondary");
-              btnAdd.innerHTML = "Followed";
+              btnAdd.innerHTML = "Unfollow";
+              btnAdd.classList.add("btn", "btn-danger");
+              btnAdd.addEventListener("click", async () => {
+                if (btnAdd.innerHTML == "Follow") {
+                  follow(user._id, btnAdd);
+                } else if (btnAdd.innerHTML == "Unfollow") {
+                  unfollow(user._id, btnAdd);
+                }
+              });
             }
 
             cardBody.appendChild(linkProfile);
@@ -283,7 +324,7 @@ if (token) {
           searchSection.appendChild(title);
         }
       } catch (error) {
-        console.log(error);
+        document.location.href = "/login.html";
       }
     }
   });

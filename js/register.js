@@ -11,7 +11,11 @@ const loading = document.querySelector(".loading");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+// const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+
+// URL DEL SERVIDOR EN DESARROLLO
+
+const API_URL = "http://localhost:3000/api";
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();

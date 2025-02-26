@@ -11,7 +11,7 @@ const loading = document.querySelector(".loading");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "https://backend-social-network-aa5m.onrender.com/api";
+const API_URL = "https://backend-social-network-tiku.onrender.com/api";
 
 // URL DEL SERVIDOR EN DESARROLLO
 

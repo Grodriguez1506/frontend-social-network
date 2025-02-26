@@ -26,7 +26,7 @@ const followBtn = document.querySelector(".followBtn");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "https://backend-social-network-yfst.onrender.com";
+const API_URL = "https://backend-social-network-yfst.onrender.com/api";
 
 // URL DEL SERVIDOR EN DESARROLLO
 

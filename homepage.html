@@ -39,9 +39,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               
-            <li class="nav-item">
-              <span class="welcomeText"></span>
-            </li>
+            <span class="welcomeText"></span>
             <ul class="navbar-nav ms-auto">
               <!-- BUSCADOR -->
               <form id="searchForm" class="d-flex mx-2" role="search">
@@ -56,11 +54,11 @@
               </li>
             </ul>
             </div>
+            <!-- FOTO DE PERFIL -->
+            <a class="profile_picture mx-2" href="#">
+              <img class="profile_image">
+            </a>
         </div>
-        <!-- FOTO DE PERFIL -->
-        <a class="profile_picture mx-2" href="#">
-          <img class="profile_image">
-        </a>
     </nav>
 
     <!-- CONTENEDOR PRINCIPAL -->
@@ -70,7 +68,7 @@
         <div class="publicationError alert alert-danger" style="display: none;"></div>
         <div class="publicationSuccess alert alert-success" style="display: none;"></div>
         <h1 class="fs-1 fw-bold text-light my-4">Make a post</h1>
-        <div class="form-floating mb-3">
+        <div class="form-floating mb-3 publicationInput">
           <input type="text" class="form-control inputText" id="floatingInput" placeholder="¿What are you thinking?">
           <label for="floatingInput">¿What are you thinking?</label>
         </div>

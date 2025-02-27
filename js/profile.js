@@ -110,28 +110,25 @@ if (token) {
             btnAdd.classList.add("btn", "btn-secondary");
             btnAdd.innerHTML = "That's You";
           } else if (!followed.includes(user.followed._id)) {
+            btnAdd.innerHTML = "Follow";
             btnAdd.classList.add("btn", "btn-primary");
             btnAdd.addEventListener("click", async () => {
-              try {
-                await fetch(`${API_URL}/follow/save`, {
-                  method: "POST",
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-type": "application/json",
-                  },
-                  body: JSON.stringify({ followed: user.followed._id }),
-                });
-
-                btnAdd.classList.add("btn", "btn-secondary");
-                btnAdd.innerHTML = "Followed";
-              } catch (error) {
-                console.log(error);
+              if (btnAdd.innerHTML == "Follow") {
+                follow(user.user._id, btnAdd);
+              } else if (btnAdd.innerHTML == "Unfollow") {
+                unfollow(user.user._id, btnAdd);
               }
             });
-            btnAdd.innerHTML = "Add";
           } else {
-            btnAdd.classList.add("btn", "btn-secondary");
-            btnAdd.innerHTML = "Followed";
+            btnAdd.innerHTML = "Unfollow";
+            btnAdd.classList.add("btn", "btn-danger");
+            btnAdd.addEventListener("click", async () => {
+              if (btnAdd.innerHTML == "Follow") {
+                follow(user.user._id, btnAdd);
+              } else if (btnAdd.innerHTML == "Unfollow") {
+                unfollow(user.user._id, btnAdd);
+              }
+            });
           }
 
           cardBody.appendChild(linkProfile);
@@ -150,7 +147,10 @@ if (token) {
       }
     } catch (error) {
       console.log(error);
-      followingSection.innerHTML = "Something went wrong";
+      const followingTitle = document.createElement("h2");
+      followingTitle.classList.add("fs-1", "text-light", "fw-bold");
+      followingTitle.innerHTML = "Something went wrong";
+      followingSection.appendChild(followingTitle);
     }
   };
 
@@ -231,28 +231,25 @@ if (token) {
             btnAdd.classList.add("btn", "btn-secondary");
             btnAdd.innerHTML = "That's You";
           } else if (!followed.includes(user.user._id)) {
+            btnAdd.innerHTML = "Follow";
             btnAdd.classList.add("btn", "btn-primary");
             btnAdd.addEventListener("click", async () => {
-              try {
-                await fetch(`${API_URL}/follow/save`, {
-                  method: "POST",
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-type": "application/json",
-                  },
-                  body: JSON.stringify({ followed: user.user._id }),
-                });
-
-                btnAdd.classList.add("btn", "btn-secondary");
-                btnAdd.innerHTML = "Followed";
-              } catch (error) {
-                console.log(error);
+              if (btnAdd.innerHTML == "Follow") {
+                follow(user.user._id, btnAdd);
+              } else if (btnAdd.innerHTML == "Unfollow") {
+                unfollow(user.user._id, btnAdd);
               }
             });
-            btnAdd.innerHTML = "Add";
           } else {
-            btnAdd.classList.add("btn", "btn-secondary");
-            btnAdd.innerHTML = "Followed";
+            btnAdd.innerHTML = "Unfollow";
+            btnAdd.classList.add("btn", "btn-danger");
+            btnAdd.addEventListener("click", async () => {
+              if (btnAdd.innerHTML == "Follow") {
+                follow(user.user._id, btnAdd);
+              } else if (btnAdd.innerHTML == "Unfollow") {
+                unfollow(user.user._id, btnAdd);
+              }
+            });
           }
 
           cardBody.appendChild(linkProfile);

@@ -32,36 +32,34 @@
 
     <!-- MENU DE NAVEGACION -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/homepage.html" style="font-weight: bold;">Social Network</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              
+      <div class="container-fluid">
+          <a class="navbar-brand" href="/homepage.html" style="font-weight: bold;">Social Network</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            
+          <span class="welcomeText"></span>
+          <ul class="navbar-nav ms-auto">
+            <!-- BUSCADOR -->
+            <form id="searchForm" class="d-flex mx-2" role="search">
+              <input id="inputSearch" class="form-control me-2" type="search" placeholder="Search users" aria-label="Search">
+              <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
             <li class="nav-item">
-              <span class="welcomeText"></span>
+              <a class="nav-link" aria-current="page" href="/homepage.html">Home</a>
             </li>
-            <ul class="navbar-nav ms-auto">
-              <!-- BUSCADOR -->
-              <form id="searchForm" class="d-flex mx-2" role="search">
-                <input id="inputSearch" class="form-control me-2" type="search" placeholder="Search users" aria-label="Search">
-                <button class="btn btn-outline-dark" type="submit">Search</button>
-              </form>
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="/homepage.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="logout" href="#">Logout</a>
-                </li>
-            </ul>
-            </div>
-        </div>
-        <!-- FOTO DE PERFIL -->
-        <a class="profile_picture mx-2" href="#">
-          <img class="profile_image">
-        </a>
-    </nav>
+            <li class="nav-item">
+              <a class="nav-link" id="logout" href="#">Logout</a>
+            </li>
+          </ul>
+          </div>
+          <!-- FOTO DE PERFIL -->
+          <a class="profile_picture mx-2" href="#">
+            <img class="profile_image">
+          </a>
+      </div>
+  </nav>
 
     <!-- CONTENEDOR PRINCIPAL -->
     <main class="container-fluid bg-dark px-5 d-flex flex-column justify-content-start align-items-center">

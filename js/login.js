@@ -89,6 +89,10 @@ recoveryForm.addEventListener("submit", async (e) => {
 
     const data = await response.json();
 
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
     if (data.status == "error") {
       recoveryAlert.style.display = "block";
       recoveryAlert.innerHTML = data.message;
@@ -107,6 +111,8 @@ recoveryForm.addEventListener("submit", async (e) => {
       recoveryInputPassword.value = "";
     }
   } catch (error) {
-    console.log(error);
+    recoveryAlert.style.display = "block";
+    recoveryAlert.innerHTML = error.message;
+    recoveryAlert.classList.add("alert-danger");
   }
 });

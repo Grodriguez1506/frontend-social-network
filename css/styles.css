@@ -17,6 +17,17 @@ main{
                 0px 0px 5px #ccc,
                 0px 0px 6px #ccc;
     margin-right: 10px;
+    cursor: pointer;
+}
+
+.recoveryPassword,
+.backLogin{
+    text-decoration: none;
+}
+
+.recoveryPassword:hover,
+.backLogin:hover{
+    text-decoration: underline;
 }
 
 .profile_picture > img{
@@ -215,14 +226,24 @@ input[type="file"]{
         width: 70%;
     }
 
+    #recoveryForm{
+        width: 70%;
+    }
+
     #registerForm{
         width: 70%;
     }
+
+
 }
 
 @media (max-width: 644px) {
 
     #loginForm{
+        width: 80%;
+    }
+
+    #recoveryForm{
         width: 80%;
     }
 
@@ -244,6 +265,10 @@ input[type="file"]{
 
 @media (max-width: 410px) {
     #loginForm{
+        width: 100%;
+    }
+
+    #recoveryForm{
         width: 100%;
     }
 

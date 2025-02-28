@@ -55,7 +55,7 @@
           </ul>
           </div>
           <!-- FOTO DE PERFIL -->
-          <a class="profile_picture mx-2" href="#">
+          <a class="profile_picture mx-2">
             <img class="profile_image">
           </a>
       </div>
@@ -82,6 +82,10 @@
         <h2 class="publicationsCount"></div>
       </section>
       <a class="followBtn"></a>
+      <form id="uploadPicture" class="my-1">
+        <label class="custom-profile-upload btn btn-primary" for="floatingFile" style="display:none;">Upload profile picture</label>
+        <input type="file" id="floatingFile" class="pictureFile">
+      </form>
       <!-- LISTADO DE PUBLICACIONES -->
       <div id="feed" class="mt-4"></div>
       <!-- LISTADO DE USUARIOS BUSCADOS -->

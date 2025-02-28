@@ -209,9 +209,7 @@ if (token) {
     }
   };
 
-  if (feed) {
-    getFeed();
-  }
+  getFeed();
 
   // FUNCION PARA HACER UN POST
 

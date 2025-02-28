@@ -60,7 +60,7 @@
             <div class="loading alert alert-success" style="display: none;">
               <div class="first">Loading...</div>
             </div>
-            <div class="loginError alert alert-danger" style="display: none;"></div>
+            <div class="loginAlert alert" style="display: none;"></div>
             <h1 class="fs-1 fw-bold text-light my-4">Login</h1>
             <div class="form-floating mb-3">
                 <input type="email" class="form-control inputEmail" id="floatingInput" placeholder="name@example.com">
@@ -73,7 +73,29 @@
               <div class="d-grid gap-2 my-3">
                 <button class="btn btn-primary" id="loginBtn" type="submit">Login</button>
               </div>
+              <div class="text-center">
+                <a href="#" class="recoveryPassword text-light">Forgot your password?</a>
+              </div>
         </form>
+
+        <form id="recoveryForm" class="col-6 bg-secondary p-4 rounded-2 shadow-lg" style="display: none;">
+          <div class="recoveryAlert alert" style="display: none;"></div>
+          <h1 class="fs-1 fw-bold text-light my-4">Reset your password</h1>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control recoveryInputEmail" id="floatingEmail" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control recoveryInputPassword" id="floatingRecoveryPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <div class="d-grid gap-2 my-3">
+            <button class="btn btn-primary" id="recoverPasswordBtn" type="submit">Reset</button>
+          </div>
+          <div class="text-center">
+            <a href="#" class="backLogin text-light">Back to Login</a>
+          </div>
+      </form>
     </main>
   </body>
 </html>

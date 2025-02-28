@@ -9,7 +9,6 @@ const searchForm = document.getElementById("searchForm");
 const inputSearch = document.getElementById("inputSearch");
 const searchSection = document.getElementById("searchSection");
 const loginError = document.querySelector("loginError");
-const userStored = JSON.parse(localStorage.getItem("user"));
 const pictureContainer = document.querySelector(".pictureContainer");
 const mainPicture = document.querySelector(".mainPicture");
 const personalInfo = document.querySelector(".personalInfo");
@@ -22,6 +21,8 @@ const followersSection = document.getElementById("followersSection");
 const followers = document.querySelector(".followers");
 const publicationsCount = document.querySelector(".publicationsCount");
 const followBtn = document.querySelector(".followBtn");
+const pictureFile = document.querySelector(".pictureFile");
+const uploadPicture = document.querySelector(".custom-profile-upload");
 
 // URL DEL SERVIDOR BACKEND
 
@@ -34,6 +35,10 @@ const API_URL = "https://backend-social-network-yfst.onrender.com/api";
 // ACCESS TOKEN INICIAL DESDE EL LOGIN
 
 var token = localStorage.getItem("access_token");
+
+// OBTENER DATOS DEL USUARIO ALMACENADO EN LOCALSTORAGE
+
+var userStored = JSON.parse(localStorage.getItem("user"));
 
 const refreshToken = async () => {
   const response = await fetch(`${API_URL}/user/refresh`, {
@@ -378,9 +383,46 @@ if (token) {
     }
   };
 
+  const updatePicture = async (formData) => {
+    try {
+      const response = await fetch(`${API_URL}/user/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.status == 401) {
+        let refresh = await refreshToken();
+        if (refresh === "success") {
+          return updatePicture(formData);
+        }
+      }
+
+      const data = await response.json();
+
+      if (data.status == "success") {
+        console.log(data);
+        profileImage.setAttribute(
+          "src",
+          `${API_URL}/user/avatar/${data.imageName}`
+        );
+        mainPicture.setAttribute(
+          "src",
+          `${API_URL}/user/avatar/${data.imageName}`
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // OBTENER LOS DATOS PERSONALES DEL USUARIO LOGEADO Y EL USUARIO SELECCIONADO
 
   const getPersonalData = async () => {
+    userStored = JSON.parse(localStorage.getItem("user"));
+
     try {
       // POBLAR EL TEXTO DE BIENVENIDA EN EL HEADER DEL NOMBRE DEL UUSUARIO LOGEADO
 
@@ -435,9 +477,19 @@ if (token) {
 
       // MOSTRAR EL BOTON DE FOLLOW SI NO SIGUES AL USUARIO Y UNFOLLOW SI LO SIGUES
 
-      if (userStored.userSelected._id == userStored.user.id) {
+      if (userStored.userSelected._id === userStored.user._id) {
         followBtn.style.display = "none";
+        uploadPicture.style.display = "block";
+        pictureFile.addEventListener("change", () => {
+          const avatar = pictureFile.files[0];
+
+          const formData = new FormData();
+
+          formData.append("avatar", avatar);
+          updatePicture(formData);
+        });
       } else if (!followed.includes(userStored.userSelected._id)) {
+        console.log("NO ESTÁ EN MIS SEGUIDORES");
         followBtn.innerHTML = "Follow";
         followBtn.classList.add("btn", "btn-primary", "fs-5");
         followBtn.addEventListener("click", async () => {
@@ -460,8 +512,8 @@ if (token) {
       }
     } catch (error) {
       // SI EL TOKEN EXPIRÓ REDIRECCIONA AL LOGIN
-      // console.log(error);
-      document.location.href = "/login.html";
+      console.log(error);
+      // document.location.href = "/login.html";
     }
   };
 
@@ -534,7 +586,8 @@ if (token) {
         feed.appendChild(title);
       }
     } catch (error) {
-      document.location.href = "/login.html";
+      console.log(error);
+      // document.location.href = "/login.html";
     }
   };
 

@@ -9,11 +9,11 @@ const loading = document.querySelector(".loading");
 
 // URL DEL SERVIDOR BACKEND
 
-const API_URL = "https://backend-social-network-yfst.onrender.com/api";
+// const API_URL = "https://backend-social-network-yfst.onrender.com/api";
 
 // URL DEL SERVIDOR EN DESARROLLO
 
-// const API_URL = "http://localhost:3000/api";
+const API_URL = "http://localhost:3000/api";
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -27,6 +27,7 @@ loginForm.addEventListener("submit", async (e) => {
   try {
     const response = await fetch(`${API_URL}/user/login`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
@@ -41,7 +42,8 @@ loginForm.addEventListener("submit", async (e) => {
     }
 
     localStorage.setItem("access_token", data.token);
-    location.href = "/homepage.html";
+
+    document.location.href = "/homepage.html";
   } catch (error) {
     console.log(error);
   }

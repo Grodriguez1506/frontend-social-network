@@ -23,6 +23,7 @@ main{
 .recoveryPassword,
 .backLogin{
     text-decoration: none;
+    cursor: pointer;
 }
 
 .recoveryPassword:hover,

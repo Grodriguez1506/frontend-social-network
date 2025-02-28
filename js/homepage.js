@@ -17,11 +17,11 @@ const loginError = document.querySelector("loginError");
 
 // URL DEL SERVIDOR BACKEND
 
-// const API_URL = "https://backend-social-network-yfst.onrender.com/api";
+const API_URL = "https://backend-social-network-yfst.onrender.com/api";
 
 // URL DEL SERVIDOR EN DESARROLLO
 
-const API_URL = "http://localhost:3000/api";
+// const API_URL = "http://localhost:3000/api";
 
 var token = localStorage.getItem("access_token");
 
